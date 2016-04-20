@@ -7,32 +7,35 @@
 #include <gsl/gsl_fft_complex.h>
 
 SES::SES(double _Tc, double _delta) {
-  omega = 2.0*M_PI;
-  Tp = 2.0*M_PI/omega;
+  // constants
+  omega = 2.0*M_PI;  // angular frequency of the driving
+  Tp = 2.0*M_PI/omega;  // the period of the driving
 
-  N = Nquad * Nomega;
+  Tc = _Tc;  // time duration of the lifiting of the top gate potential
+  delta = _delta * omega;  // energy spacing of the quantum dot
+  eU0 = -delta / 2.0;  // initial position of the energy level
 
-  Tc = _Tc;
-  delta = _delta * omega;
-  eU0 = -delta / 2.0;
-
-  Nquad = 5;
-  Nomega = 10;  // int(2.5*delta/omega);
-  NT = 80;
+  Nquad = 5;  // number of quadrature points for the Fredholm operator
+  Nomega = int(2.5*delta/omega);  // number of Floquet scattering matrix elements
+  NT = 80;  // number of points for the time integration
   N = Nquad * Nomega;
   NFT = 4 * Nomega;
 
   gsl_fft_complex_wavetable *wavetable = gsl_fft_complex_wavetable_alloc(NFT);
   gsl_fft_complex_workspace *workspace = gsl_fft_complex_workspace_alloc(NFT);
 
+  // calculate the scattering phases
   c = gsl_vector_complex_alloc(NFT);
   for (int i=0; i<NFT; i++)
     gsl_vector_complex_set(c, i, gsl_complex_div_real(phase(Tp/(NFT-1)*i), double(NFT)));
+
+  // do a Fourier transform
   gsl_fft_complex_forward(c->data, c->stride, c->size, wavetable, workspace);
 
   gsl_fft_complex_wavetable_free(wavetable);
   gsl_fft_complex_workspace_free(workspace);
 
+  // precalculate Floquet scattering matrix elements
   finalizeConstructor();
 }
 

@@ -9,20 +9,16 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_linalg.h>
 
-WTD *objectWhichWillHandle;
-
-double wrapperItp(double t0, void *params) {
-  return objectWhichWillHandle->itp2(t0, *((double*)params));
-}
-
 WTD::WTD() {
-  Nquad = 5;
-  Nomega = 6;
-  NT = 20;
-  eta = 0.1;
-  omega = 2.0*M_PI;
-  Tp = 2.0*M_PI/omega;
+  // constants
+  Nquad = 5;  // number of quadrature points within one energy compartment of size hbar omega
+  Nomega = 6;  // cutoff for the number of Floquet scattering matrix elements
+  NT = 20;  // number of time steps for the integration of the two-time ITP over one period
+  eta = 0.1;  // temporal extent of the leviton wave function for the example Floquet scattering matrix
+  omega = 2.0*M_PI;  // angular frequency of the driving
+  Tp = 2.0*M_PI/omega;  // period of the driving
 
+  // based on these values, precalculate some things
   finalizeConstructor();
 }
 
@@ -67,7 +63,8 @@ void WTD::precalcSF() {
 }
 
 void WTD::precalcQuadrature() {
-  // calculate the quadrature points and weights
+  // write Gaussian quadrature points into the array x,
+  // and the corresponding weights into the array w
   gsl_integration_glfixed_table *quadTable = gsl_integration_glfixed_table_alloc(Nquad);
   for (int i=0; i<N; i++) {
     int compartment = i / Nquad;
@@ -147,14 +144,4 @@ double WTD::itp(double tau) {
     result += itp2(i*Tp/NT, tau) / NT;
   }
   return result;
-
-  // gsl_function f;
-  // double t = tau;
-  // objectWhichWillHandle = this;
-  // f.function = wrapperItp;
-  // f.params = &t;
-  // gsl_integration_glfixed_table *quadTable = gsl_integration_glfixed_table_alloc(NT);
-  // double result = gsl_integration_glfixed(&f, 0, Tp, quadTable) / double(Tp);
-  // gsl_integration_glfixed_table_free(quadTable);
-  // return result;
 }
