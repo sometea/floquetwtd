@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 2.6)
+project (floquetwtd)
+set(CMAKE_CXX_FLAGS "-Wall -O2")
+add_executable(floquetwtd main.cxx wtd.cxx ses.cxx glfixed.c)
+target_link_libraries(floquetwtd m gsl openblas pthread)
