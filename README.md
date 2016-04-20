@@ -7,18 +7,18 @@ WTD W(t) is the probability distribution for a time t to pass between two
 successive electron transfers in a mesoscopic electronic conductor.
 
 The method to calculate WTDs from the Floquet scattering matrix is described in:
-D. Dasenbrook, C. Flindt and M. Büttiker, "Floquet Theory of Electron Waiting Times in Quantum-Coherent Conductors", Physical Review Letters 112, 146801 (2014)
+D. Dasenbrook, C. Flindt and M. Büttiker, [Floquet Theory of Electron Waiting Times in Quantum-Coherent Conductors](http://dx.doi.org/10.1103/PhysRevLett.112.146801), Physical Review Letters 112, 146801 (2014)
 
 This code was, among other applications, used to calculate the WTDs in:
-P. P. Hofer, D. Dasenbrook and C. Flindt, "Electron waiting times for the mesoscopic capacitor", Physica E (2015), doi:10.1016/j.physe.2015.08.034
+P. P. Hofer, D. Dasenbrook and C. Flindt, [Electron waiting times for the mesoscopic capacitor](http://dx.doi.org/10.1016/j.physe.2015.08.034), Physica E (2015), doi:10.1016/j.physe.2015.08.034
 
 A different variant of this code was also used to calculate the WTDs in:
-D. Dasenbrook and C. Flindt, "Quantum theory of an electron waiting time clock", [arxiv.org/abs/1602.07917](arXiv:1602.07917) (2016).
+D. Dasenbrook and C. Flindt, "Quantum theory of an electron waiting time clock", [arXiv:1602.07917](arxiv.org/abs/1602.07917) (2016).
 
 The Floquet scattering matrix formalism used by this method is valid for quantum mechanical many-electron systems, as long as interactions between the electrons can be neglected.
 
 ## Compilation
-This software makes use of the [www.gnu.org/software/gsl](GNU Scientific Library) (GSL). To compile it, you need to have this library installed on your system, as well as [cmake.og](cmake). Then, compile by typing
+This software makes use of the [GNU Scientific Library](www.gnu.org/software/gsl) (GSL). To compile it, you need to have this library installed on your system, as well as [cmake](cmake.org). Then, compile by typing
 ```
 cmake
 ```
