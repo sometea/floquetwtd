@@ -17,6 +17,9 @@ D. Dasenbrook and C. Flindt, "Quantum theory of an electron waiting time clock",
 
 The Floquet scattering matrix formalism used by this method is valid for quantum mechanical many-electron systems, as long as interactions between the electrons can be neglected.
 
+To calculate the idle time probability (ITP) from which the WTD can be derived by taking the second time derivative, a Fredholm determinant needs to be evaluated. The method that is used in this code for this purpose is described in:
+F. Bornemann, [On the numerical evaluation of Fredholm determinants](http://dx.doi.org/10.1090/S0025-5718-09-02280-7), Mathematics of Computation 79, 871 (2010).
+
 ## Compilation
 This software makes use of the [GNU Scientific Library](www.gnu.org/software/gsl) (GSL). To compile it, you need to have this library installed on your system, as well as [cmake](cmake.org). Then, compile by typing
 ```
@@ -30,6 +33,13 @@ make
 It is assumed that you are on a Linux or Unix-like system, and that you have
 basic build tools such as the GNU compiler collection installed. Windows/Cygwin
 might work as well.
+
+I have copied over the files "glfixed.c" and "glfixed.h" from the current
+version of the GNU Scientific library into this project, since they are not
+present in some earlier versions of the library (for example, the one on the
+compute cluster I used). I do not claim authership of the code contained in
+these files. They are needed to compute Gaussian quadrature points and weights
+for the numerical evaluation of the Fredholm determinants.
 
 ## Usage
 Currently, you have to implement the scattering matrix by editing the source
